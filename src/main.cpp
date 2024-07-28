@@ -102,8 +102,8 @@ int main(int argc, char** argv) {
         file << tokens_to_asm(tokens);
     }
 
-    system("nasm -felf64 build/out.asm");
-    system("ld -o build/out build/out.o");
+    auto _ = system("nasm -felf64 build/out.asm");
+    _ = system("ld -o build/out build/out.o");
     
     return EXIT_SUCCESS;
 }
