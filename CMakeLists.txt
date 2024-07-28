@@ -10,4 +10,5 @@ if(CMAKE_EXPORT_COMPILE_COMMANDS)
     ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
 endif()
 
-add_executable(hydro src/main.cpp)
+file(GLOB_RECURSE hydrogen_SOURCES src/*.cpp)
+add_executable(hydro ${hydrogen_SOURCES})
