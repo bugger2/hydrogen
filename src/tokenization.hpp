@@ -8,7 +8,12 @@
 enum class TokenType {
     exit,
     int_lit,
-    semi
+    semi,
+    open_paren,
+    close_paren,
+    ident,
+    let,
+    eq
 };
 
 struct Token {
@@ -22,7 +27,7 @@ public:
 
     std::vector<Token> tokenize();
 private:
-    [[nodiscard]] std::optional<char> peek(int ahead = 1) const;
+    [[nodiscard]] std::optional<char> peek(int offset = 0) const;
     char consume();
     
     std::string m_src;

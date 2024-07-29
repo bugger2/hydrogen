@@ -20,13 +20,18 @@ std::vector<Token> Tokenizer::tokenize() {
                 buf.push_back(consume());
             }
             
-            if(buf == "exit") {
+            if (buf == "exit") {
                 tokens.push_back({.type = TokenType::exit});
                 buf.clear();
                 continue;
+            } else if (buf == "let") {
+                tokens.push_back({.type = TokenType::let});
+                buf.clear();
+                continue;
             } else {
-                std::cerr << "womp womp\n";
-                exit(EXIT_FAILURE);
+                tokens.push_back({.type = TokenType::ident, .value = buf});
+                buf.clear();
+                continue;
             }
         } else if (std::isdigit(peek().value())) {
             buf.push_back(consume());
@@ -38,11 +43,21 @@ std::vector<Token> Tokenizer::tokenize() {
             tokens.push_back({.type = TokenType::int_lit, .value = buf});
             buf.clear();
             continue;
+            
+        } else if (peek().value() == '(') {
+            consume();
+            tokens.push_back({.type = TokenType::open_paren});
+        } else if (peek().value() == ')') {
+            consume();
+            tokens.push_back({.type = TokenType::close_paren});
         } else if (peek().value() == ';') {
             consume();
             tokens.push_back({.type = TokenType::semi});
-            buf.clear();
             continue;
+            
+        } else if (peek().value() == '=') {
+            consume();
+            tokens.push_back({.type = TokenType::eq});
         } else if (std::isspace(peek().value())) {
             consume();
             buf.clear();
@@ -57,11 +72,11 @@ std::vector<Token> Tokenizer::tokenize() {
     return tokens;
 }
 
-[[nodiscard]] std::optional<char> Tokenizer::peek(int ahead) const {
-    if (m_index + ahead > m_src.length()) {
+[[nodiscard]] std::optional<char> Tokenizer::peek(int offset) const {
+    if (m_index + offset >= m_src.length()) {
         return {};
     } else {
-        return m_src.at(m_index);
+        return m_src.at(m_index + offset);
     }
 }
 

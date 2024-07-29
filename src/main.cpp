@@ -25,17 +25,17 @@ int main(int argc, char** argv) {
     std::vector<Token> tokens = tokenizer.tokenize();
 
     Parser parser(std::move(tokens));
-    std::optional<NodeExit> tree = parser.parse();
-    if (!tree.has_value()) {
-        std::cerr << "No exit statement found.\n";
+    std::optional<NodeProg> prog = parser.parse_prog();
+    if (!prog.has_value()) {
+        std::cerr << "Invalid program.\n";
         exit(EXIT_FAILURE);
     }
 
-    Generator generator(tree.value());
+    Generator generator(prog.value());
 
     {
         std::fstream file("build/out.asm", std::ios::out);
-        file << generator.generate();
+        file << generator.gen_prog();
     }
 
     auto _ = system("nasm -felf64 build/out.asm");
