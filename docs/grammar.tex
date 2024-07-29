@@ -1,0 +1,25 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%% \usepackage{graphicx}
+%% \usepackage{longtable}
+%% \usepackage{wrapfig}
+%% \usepackage{rotating}
+%% \usepackage[normalem]{ulem}
+\usepackage{amsmath}
+%% \usepackage{amssymb}
+%% \usepackage{capt-of}
+%% \usepackage{hyperref}
+
+\begin{document}
+\begin{align}
+  [\text{prog}] &\to [\text{stmt}]* \\
+  [\text{stmt}] &\to
+  \begin{cases}
+    exit([\text{expr}]); \\
+    let \enspace \text{ident} = [\text{expr}];
+  \end{cases} \\
+  [\text{exit}] &\to exit\space[\text{expr}] \\
+  [\text{expr}] &\to \text{int\_lit} \\
+\end{align}
+\end{document}
